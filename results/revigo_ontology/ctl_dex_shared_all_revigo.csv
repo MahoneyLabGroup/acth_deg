@@ -1,0 +1,4 @@
+TermID, Name, Frequency, PlotX, PlotY, LogSize, Value, Uniqueness, Dispensability, Representative, Eliminated
+"GO:0032784", "regulation of DNA-templated transcription, elongation", 0.276933101650738, 0, 4.21711465110035, 1.7160033436348, -1.69903052748912, 0.58333421932955, 0, null, False
+"GO:0034243", "regulation of transcription elongation from RNA polymerase II promoter", 0.184622067767159, 4.21711465110035, 0, 1.54406804435028, -1.69903052748912, 0.175005244366716, 0.23712896, null, False
+"GO:0032786", "positive regulation of DNA-templated transcription, elongation", 0.168331885317116, null, null, 1.50514997831991, -1.69903052748912, 0.17575248035749, 0.92619848, 34243, True

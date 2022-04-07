@@ -1,0 +1,652 @@
+---
+title: "ACTH and Dex DEG Analysis"
+author: "Jeff Brabec"
+date: "4/4/2022"
+output: html_document
+---
+
+# I. Load packages and custom functions written for analysis
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)
+library(here)
+library(DESeq2)
+library(gee)
+library(janitor)
+library(ggvenn)
+library(patchwork)
+
+#Load custom functions
+fun.dir <- list.files(here("src"), full.names = TRUE)
+for(i in 1:length(fun.dir)){source(fun.dir[i])}
+```
+
+# II. Read in and preprocess data
+
+## Read in Counts data
+```{r}
+# read in the matrix we generated using htseq-count 
+rat_dat <- as.matrix(read.table(here("data", "all_counts.txt"), 
+                                sep="\t", 
+                                header = TRUE, 
+                                row.names=1, 
+                                stringsAsFactors = F))
+
+# filter out these last 5 rows; contain metadata info
+rat_dat <- rat_dat[1:(nrow(rat_dat)-5),]
+
+# read in the file from the SRA metadata that has sample/experimental labels 
+rat_groups <- read.csv(here("data", "sample_groups.csv"))
+```
+
+## vehicle ELS baseline model
+```{r}
+# order by SRA run accession 
+rat_groups_w_syn <- rat_groups %>% 
+  arrange(samp_id) %>% 
+  mutate(to_sep = samp_id) %>% 
+  #filter(group != "syn_acth_els") %>% 
+  separate(to_sep, into = c("region", "animal"), " ") %>%
+  mutate(across(c(group, sex), as.factor),
+         #region = ifelse(str_detect(samp_id, "Hip"), "Hip", "PFC"),
+         region = as.factor(region),
+         samp_id = str_replace_all(samp_id, fixed(" "), ""),
+         animal = as.factor(animal)) %>% 
+  mutate(treat_group = case_when(group == "acthar_els" | group == "syn_acth_els" ~ "ACTH",
+                                 group == "dex_els" ~ "DEX",
+                                 group == "ELS" ~ "ELS",
+                                 group == "ctl" ~ "CTL"),
+         treat_group = as.factor(treat_group)) %>% 
+  arrange(animal) %>% 
+  mutate(treat_group = fct_relevel(treat_group, c("ELS", "ACTH", "DEX", "CTL"))) # This line Sets ELS as first factor level
+
+
+rat_deseq_dat_w_syn <- DESeqDataSetFromMatrix(countData = rat_dat,
+                                              colData = rat_groups_w_syn,
+                                              design = ~ group + sex)
+
+keep_w_syn <- rowSums(counts(rat_deseq_dat_w_syn)) >= 10
+rat_deseq_dat_w_syn <- rat_deseq_dat_w_syn[keep_w_syn,]
+
+rat_deseq_dat_w_syn <- estimateSizeFactors(rat_deseq_dat_w_syn)
+rld_w_syn <- rlog(rat_deseq_dat_w_syn, blind = FALSE)
+
+rld_tib_w_syn <- as.data.frame(t(assay(rld_w_syn))) %>% 
+  rownames_to_column(var = "samp_id")
+
+gee_dat_w_syn <- rat_groups_w_syn %>% 
+  inner_join(rld_tib_w_syn, by = "samp_id") %>% 
+  arrange(animal) 
+
+model_prep_w_syn <- gee_dat_w_syn %>%  
+  pivot_longer(cols = starts_with("ENSRN"), 
+               names_to = "gene_id",
+               values_to = "expr_val") %>% 
+  group_by(gene_id) %>%
+  nest()
+
+write_rds(model_prep_w_syn, here("data/expr_dat_w_syn.rds"))
+```
+
+## Control as baseline model
+```{r}
+# order by SRA run accession 
+rat_groups_w_syn <- rat_groups %>% 
+  arrange(samp_id) %>% 
+  mutate(to_sep = samp_id) %>% 
+  #filter(group != "syn_acth_els") %>% 
+  separate(to_sep, into = c("region", "animal"), " ") %>%
+  mutate(across(c(group, sex), as.factor),
+         #region = ifelse(str_detect(samp_id, "Hip"), "Hip", "PFC"),
+         region = as.factor(region),
+         samp_id = str_replace_all(samp_id, fixed(" "), ""),
+         animal = as.factor(animal)) %>% 
+  mutate(treat_group = case_when(group == "acthar_els" | group == "syn_acth_els" ~ "ACTH",
+                                 group == "dex_els" ~ "DEX",
+                                 group == "ELS" ~ "ELS",
+                                 group == "ctl" ~ "CTL"),
+         treat_group = as.factor(treat_group)) %>% 
+  arrange(animal) %>% 
+  mutate(treat_group = fct_relevel(treat_group, c("CTL", "ACTH", "DEX", "ELS"))) # Everything is the same but switch CTL as first factor level
+
+
+rat_deseq_dat_w_syn <- DESeqDataSetFromMatrix(countData = rat_dat,
+                                              colData = rat_groups_w_syn,
+                                              design = ~ group + sex)
+
+keep_w_syn <- rowSums(counts(rat_deseq_dat_w_syn)) >= 10
+rat_deseq_dat_w_syn <- rat_deseq_dat_w_syn[keep_w_syn,]
+
+rat_deseq_dat_w_syn <- estimateSizeFactors(rat_deseq_dat_w_syn)
+rld_w_syn <- rlog(rat_deseq_dat_w_syn, blind = FALSE)
+
+rld_tib_w_syn <- as.data.frame(t(assay(rld_w_syn))) %>% 
+  rownames_to_column(var = "samp_id")
+
+gee_dat_w_syn <- rat_groups_w_syn %>% 
+  inner_join(rld_tib_w_syn, by = "samp_id") %>% 
+  arrange(animal) 
+
+model_prep_w_syn <- gee_dat_w_syn %>%  
+  pivot_longer(cols = starts_with("ENSRN"), 
+               names_to = "gene_id",
+               values_to = "expr_val") %>% 
+  group_by(gene_id) %>%
+  nest()
+
+write_rds(model_prep_w_syn, here("data/expr_dat_w_syn_ctl_base.rds"))
+```
+
+# III. Run GEEs
+
+The code to run both the Control and vehicle ELS models was written in R, however due to the memory and time required to run roughly 20,0000 models we packaged the code into a script and ran it onto the Vermont Advanced Computing Cluster (VACC). That code is included in the following chunk.
+
+## vehicle ELS model
+```{r}
+#gee running script for the models excluding synactin
+#first model will not have an interaction term, while the second model will
+
+library(tidyverse)
+library(here)
+library(gee)
+
+model_expr_df <- read_rds(here("data/expr_dat_w_syn.rds"))
+
+run_gees <- function(model_df) {
+
+  gee_df <- model_df %>% mutate(model = map(data, ~ gee(expr_val ~ treat_group + sex + region + treat_group:region,
+                                                        id = animal,
+                                                        corstr = "exchangeable",
+                                                        data = .)))
+  return(gee_df)
+
+}
+
+syn_w_interaction <- run_gees(model_df = model_expr_df)
+write_rds(syn_w_interaction, here("results/syn_w_interaction_gee_els_v_all.rds"))
+
+```
+
+## Control Model
+```{r}
+#gee running script for the models excluding synactin
+#first model will not have an interaction term, while the second model will
+
+library(tidyverse)
+library(here)
+library(gee)
+
+model_expr_df <- read_rds(here("data/expr_dat_w_syn_ctl_base.rds"))
+
+run_gees <- function(model_df) {
+
+  gee_df <- model_df %>% mutate(model = map(data, ~ gee(expr_val ~ treat_group + sex + region + treat_group:region,
+                                                        id = animal,
+                                                        corstr = "exchangeable",
+                                                        data = .)))
+
+}
+
+syn_w_interaction <- run_gees(model_df = model_expr_df)
+write_rds(syn_w_interaction, here("results/syn_w_interaction_gee.rds"))
+```
+
+# IV. Post-Process GEEs
+
+## GEE Model with ELS as Baseline
+```{r}
+# Commented out as post-processed data is available in results directory.
+# 
+# els_gee <- read_rds(here("results/syn_w_interaction_gee_els_v_all.rds"))
+# 
+# els_gee_pvals <- get_gee_p(mod_obj = els_gee)
+# els_gee_coefs <- add_coefs(els_gee_pvals, els_gee)
+# 
+# els_tibble <- els_gee_coefs %>%
+#   map(as_tibble, rownames = "term") %>%
+#   bind_rows(., .id = "gene_id") %>%
+#   mutate(term = case_when(term == "(Intercept)" ~ "intercept",
+#                           term == "treat_groupACTH" ~ "treat_group_acth",
+#                           term == "treat_groupDEX" ~ "treat_group_dex",
+#                           term == "treat_groupCTL" ~ "treat_group_ctl",
+#                           term == "sexM" ~ "sex_m",
+#                           term == "regionPFC" ~ "region_pfc",
+#                           term == "treat_groupACTH:regionPFC" ~ "treat_group_acth_by_region_pfc",
+#                           term == "treat_groupDEX:regionPFC" ~ "treat_group_dex_by_region_pfc",
+#                           term == "treat_groupCTL:regionPFC" ~ "treat_group_ctl_by_region_pfc"))
+# 
+# 
+# 
+# els_anno <- get_gene_names(els_tibble, anno_tib = anno_genes)
+# write_csv(els_anno, here("results/gee_degs/els_model_res.csv"))
+els_anno <- read_csv(here("results/gee_degs/els_model_res.csv"))
+```
+
+## GEE Model with Control as Baseline
+```{r}
+
+# Commented out as post-processed data is available in results directory.
+# ctl_gee <- read_rds(here("results/syn_w_interaction_gee.rds"))
+# ctl_gee_pvals <- get_gee_p(mod_obj = ctl_gee)
+# ctl_gee_coefs <- add_coefs(ctl_gee_pvals, ctl_gee)
+# 
+#  
+# ctl_tibble <- ctl_gee_coefs %>% 
+#   map(as_tibble, rownames = "term") %>% 
+#   bind_rows(., .id = "gene_id") %>% 
+#   mutate(term = case_when(term == "(Intercept)" ~ "intercept",
+#                           term == "treat_groupACTH" ~ "treat_group_acth",
+#                           term == "treat_groupDEX" ~ "treat_group_dex",
+#                           term == "treat_groupELS" ~ "treat_group_els",
+#                           term == "sexM" ~ "sex_m",
+#                           term == "regionPFC" ~ "region_pfc",
+#                           term == "treat_groupACTH:regionPFC" ~ "treat_group_acth_by_region_pfc",
+#                           term == "treat_groupDEX:regionPFC" ~ "treat_group_dex_by_region_pfc",
+#                           term == "treat_groupELS:regionPFC" ~ "treat_group_els_by_region_pfc"))
+# 
+# 
+# ctl_anno <- get_gene_names(ctl_tibble, anno_tib = anno_genes)
+# write_csv(ctl_anno, here("results/gee_degs/ctl_model_res.csv"))
+ctl_anno <- read_csv(here("results/gee_degs/ctl_model_res.csv"))
+```
+
+# V. Make Figures
+
+## Figure One
+```{r prep-acth-data-for-venns, eval=TRUE, include=FALSE}
+base_els_v_ctl_all <- get_model_values(els_anno, 
+                                       treat_group_ctl, 
+                                       direction = "all", 
+                                       p_cutoff = TRUE)
+base_ctl_v_acth_all <- get_model_values(ctl_anno, 
+                                        treat_group_acth, 
+                                        direction = "all", 
+                                        p_cutoff = TRUE)
+base_els_v_acth_all <- get_model_values(els_anno, 
+                                        treat_group_acth, 
+                                        direction = "all", 
+                                        p_cutoff = TRUE) 
+```
+
+```{r ontology-acth, eval=TRUE, include=FALSE}
+base_els_v_ctl_ont <- gost(query = base_els_v_ctl_all$gene_name,
+                           organism = "rnorvegicus", 
+                           correction_method = "fdr",
+                           sources = "GO:BP")
+base_ctl_v_acth_ont <- gost(query = base_ctl_v_acth_all$gene_name,
+                            organism = "rnorvegicus", 
+                            correction_method = "fdr",
+                            sources = "GO:BP")
+base_els_v_acth_ont <- gost(query = base_els_v_acth_all$gene_name,
+                            organism = "rnorvegicus", 
+                            correction_method = "fdr",
+                            sources = "GO:BP")
+
+base_els_v_ctl_ont_res <- base_els_v_ctl_ont$result %>% 
+  as_tibble() %>% 
+  dplyr::select(term_name, evc_p_value = p_value)
+
+base_els_v_acth_ont_res <- base_els_v_acth_ont$result %>% 
+  as_tibble() %>% 
+  dplyr::select(term_name, eva_p_value = p_value)
+
+base_ctl_v_acth_ont_res <- base_ctl_v_acth_ont$result %>% 
+  as_tibble() %>% 
+  dplyr::select(term_name, cva_p_value = p_value)
+
+```
+
+```{r acth_venn, eval=TRUE, include=FALSE}
+acth_base_ctl_all <- list(`CTL v. ELS` = base_els_v_ctl_all$gene_name,
+                          `ACTH v. CTL` = base_ctl_v_acth_all$gene_name,
+                          `ACTH v. ELS` = base_els_v_acth_all$gene_name)
+
+acth_base_ctl_venn_all <- ggvenn(acth_base_ctl_all, 
+                                 text_size = 7,
+                                 show_percentage = FALSE)
+
+ggsave(here("results/figures/acth_base_ctl_venn_all.png"),
+       acth_base_ctl_venn_all,
+       height = 10,
+       width = 10,
+       units = "in",
+       dpi = 600)
+```
+
+```{r prep-dex-data-for-venns, eval=TRUE, include=FALSE}
+base_els_v_ctl_all <- get_model_values(els_anno, 
+                                       treat_group_ctl, 
+                                       direction = "all", 
+                                       p_cutoff = TRUE)
+base_ctl_v_dex_all <- get_model_values(ctl_anno, 
+                                       treat_group_dex, 
+                                       direction = "all", 
+                                       p_cutoff = TRUE)
+base_els_v_dex_all <- get_model_values(els_anno, 
+                                       treat_group_dex, 
+                                       direction = "all",
+                                       p_cutoff = TRUE) 
+```
+
+```{r ontology-dex, eval=TRUE, include=FALSE}
+
+base_els_v_ctl_ont <- gost(query = base_els_v_ctl_all$gene_name,
+                           organism = "rnorvegicus", 
+                           correction_method = "fdr",
+                           sources = "GO:BP")
+base_ctl_v_dex_ont <- gost(query = base_ctl_v_dex_all$gene_name,
+                           organism = "rnorvegicus", 
+                           correction_method = "fdr",
+                           sources = "GO:BP")
+base_els_v_dex_ont <- gost(query = base_els_v_dex_all$gene_name,
+                           organism = "rnorvegicus", 
+                           correction_method = "fdr",
+                           sources = "GO:BP")
+base_els_v_ctl_ont_res <- base_els_v_ctl_ont$result %>% 
+  as_tibble() %>% 
+  dplyr::select(term_name, evc_p_value = p_value)
+
+base_els_v_dex_ont_res <- base_els_v_dex_ont$result %>% 
+  as_tibble() %>% 
+  dplyr::select(term_name, evd_p_value = p_value)
+
+base_ctl_v_dex_ont_res <- base_ctl_v_dex_ont$result %>% 
+  as_tibble() %>% 
+  dplyr::select(term_name, cvd_p_value = p_value)
+
+
+```
+
+```{r dex-venn, eval=TRUE, include=FALSE}
+dex_base_ctl_all <- list(`CTL v. ELS` = base_els_v_ctl_all$gene_name,
+                         `DEX v. CTL` = base_ctl_v_dex_all$gene_name,
+                         `DEX v. ELS` = base_els_v_dex_all$gene_name)
+
+dex_base_ctl_venn_all <- ggvenn(dex_base_ctl_all, 
+                                text_size = 7,
+                                show_percentage = FALSE)
+
+ggsave(here("results/figures/dex_base_ctl_venn_all.png"),
+       dex_base_ctl_venn_all,
+       height = 10,
+       width = 10,
+       units = "in",
+       dpi = 600)
+```
+
+```{r combined-venn}
+
+combined_venns <- acth_base_ctl_venn_all + dex_base_ctl_venn_all
+
+ggsave(here("results/figures/figure_one.tiff"), 
+       combined_venns,
+       height = 8,
+       width = 16,
+       units = "in",
+       dpi = 600)
+```
+
+
+## Figure Two
+
+The data for these plots was retrieved from REVIGO
+
+```{r prerevigo}
+ctl_acth_shared_all <- base_els_v_acth_all %>% 
+  filter(gene_name %in% base_els_v_ctl_all$gene_name)
+
+ctl_acth_shared_all_ont <- gprofiler2::gost(query = ctl_acth_shared_all$gene_name,
+                                            organism = "rnorvegicus",
+                                            correction_method = "fdr",
+                                            sources = c("GO:BP"))
+
+ctl_acth_shared_all_ont$result %>%
+  dplyr::select(term_id, p_value) %>% 
+  write_csv(here("results/ontology/ctl_acth_shared_all_ont.csv"))
+
+ctl_dex_shared_all <- base_els_v_dex_all %>% 
+  filter(gene_name %in% base_els_v_ctl_all$gene_name)
+
+ctl_dex_shared_all_ont <- gprofiler2::gost(query = ctl_dex_shared_all$gene_name,
+                                           organism = "rnorvegicus",
+                                           correction_method = "fdr",
+                                           sources = "GO:BP")
+
+ctl_dex_shared_all_ont$result %>% 
+  select(term_id, p_value) %>% 
+  write_csv(here("results/ontology/ctl_dex_shared_all_ont.csv"))
+```
+
+```{r revigo}
+
+ctl_acth_shared_all_ont_plot <- semantic_plot(here("results/revigo_ontology/ctl_acth_shared_all_revigo.csv"), 
+                                              title = "Shared CTL and ACTH DEG signal",
+                                              subtitle = "All DEGs") +
+  theme(plot.subtitle = element_blank(),
+        plot.title = element_blank(),
+        axis.title = element_blank(),
+        axis.text = element_text(size = 15),
+        legend.position = "bottom")
+
+
+ctl_dex_shared_all_ont_plot <- semantic_plot(here("results/revigo_ontology/ctl_dex_shared_all_revigo.csv"), 
+                                             title = "Shared CTL and DEX DEG signal",
+                                             subtitle = "All DEGs",
+                                             disp = 0.6) +
+  theme(plot.subtitle = element_blank(),
+        plot.title = element_blank(),
+        axis.title = element_blank(),
+        axis.text = element_text(size = 15),
+        legend.position = "bottom")
+```
+
+```{r}
+fig_two <- ctl_acth_shared_all_ont_plot + ctl_dex_shared_all_ont_plot
+
+ggsave(here("results/figures/fig_two.png"),
+       fig_two,
+       height = 10,
+       width = 20,
+       units = "in",
+       dpi = 600)
+```
+
+## Figure Three
+```{r}
+v_colors <- viridis(n = 5)
+
+evc_eva_comb_ont <- full_join(base_els_v_ctl_ont_res, base_els_v_acth_ont_res, by = "term_name") %>% 
+  mutate(evc_p_value = -log10(replace_na(evc_p_value, 0)),
+         eva_p_value = -log10(replace_na(eva_p_value, 0))) %>% 
+  mutate(across(contains("p_value"), ~ replace(., is.infinite(.), 0)))
+
+evc_v_eva_comp_plot <- evc_eva_comb_ont %>% 
+  ggplot(aes(x = evc_p_value, y = eva_p_value)) +
+  geom_point() + 
+  geom_abline(linetype = "dashed") +
+  geom_point(data = evc_eva_comb_ont %>% filter(evc_p_value == 0),
+             aes(x = evc_p_value, y = eva_p_value), color = v_colors[1], size = 5) +
+  geom_point(data = evc_eva_comb_ont %>% filter(eva_p_value == 0),
+             aes(x = evc_p_value, y = eva_p_value), color = v_colors[2], size = 5) +
+  geom_point(data = evc_eva_comb_ont %>% filter(evc_p_value != 0 & eva_p_value != 0),
+             aes(x = evc_p_value, y = eva_p_value), color = v_colors[5], size = 5) +
+  geom_text_repel(data = evc_eva_comb_ont %>% filter(evc_p_value != 0 & eva_p_value != 0), 
+                   aes(x = evc_p_value, y = eva_p_value, label = term_name),
+                   force = 8,
+                   size = 6) +
+  labs(x = "Control v. ELS P-value (-log10)",
+       y = "ACTH v. ELS P-value (-log10)") +
+  theme_light() +
+  theme(legend.position = "bottom",
+        legend.title = element_blank(),
+        legend.text = element_text(size = 20),
+        axis.text = element_text(size = 20),
+        axis.title = element_text(size = 25))
+
+evc_evd_comb_ont <- full_join(base_els_v_ctl_ont_res, base_els_v_dex_ont_res, by = "term_name") %>% 
+  mutate(evc_p_value = -log10(replace_na(evc_p_value, 0)),
+         evd_p_value = -log10(replace_na(evd_p_value, 0))) %>% 
+  mutate(across(contains("p_value"), ~ replace(., is.infinite(.), 0)))
+
+evc_v_evd_comp_plot <- evc_evd_comb_ont %>% 
+  ggplot(aes(x = evc_p_value, y = evd_p_value)) +
+  geom_point() + 
+  geom_abline(linetype = "dashed") +
+  geom_point(data = evc_evd_comb_ont %>% filter(evc_p_value == 0),
+             aes(x = evc_p_value, y = evd_p_value), color = v_colors[3], size = 5) +
+  geom_point(data = evc_evd_comb_ont %>% filter(evd_p_value == 0),
+             aes(x = evc_p_value, y = evd_p_value), color = v_colors[2], size = 5) +
+  geom_point(data = evc_evd_comb_ont %>% filter(evc_p_value != 0 & evd_p_value != 0),
+             aes(x = evc_p_value, y = evd_p_value), color = v_colors[5], size = 5) +
+  geom_text_repel(data = evc_evd_comb_ont %>% filter(evc_p_value != 0 & evd_p_value != 0), 
+                   aes(x = evc_p_value, y = evd_p_value, label = term_name),
+                   force = 8,
+                   size = 6) +
+  labs(x = "Control v. ELS P-value (-log10)",
+       y = "Dex v. ELS P-value (-log10)") +
+  theme_light() +
+  theme(legend.position = "bottom",
+        legend.title = element_blank(),
+        legend.text = element_text(size = 20),
+        axis.text = element_text(size = 20),
+        axis.title = element_text(size = 25))
+
+fig_three <- evc_v_eva_comp_plot + evc_v_evd_comp_plot
+
+ggsave(here("results/figures/figure_three.png"),
+       fig_three,
+       height = 10,
+       width = 20,
+       units = "in",
+       dpi = 600)
+```
+
+## Figure Four
+
+```{r acth-v-dex-ont-comp, eval=TRUE, include=FALSE}
+
+ont_comp_combined <- full_join(base_els_v_dex_ont_res, base_els_v_acth_ont_res, by = "term_name") %>% 
+  mutate(evd_p_value = -log10(replace_na(evd_p_value, 0)),
+         eva_p_value = -log10(replace_na(eva_p_value, 0))) %>% 
+  mutate(across(contains("p_value"), ~ replace(., is.infinite(.), 0)))
+
+ont_comp_plot <- ont_comp_combined %>% 
+  ggplot(aes(x = evd_p_value, y = eva_p_value)) +
+  geom_point() + 
+  geom_point(data = ont_comp_combined %>% 
+               mutate(which_unique = case_when(evd_p_value == 0 ~ "ACTH Unique",
+                                               eva_p_value == 0 ~ "Dex Unique",
+                                               evd_p_value != 0 &
+                                                 eva_p_value != 0 ~ "Shared")),
+             aes(x = evd_p_value, y = eva_p_value, color = which_unique), size = 5) +
+  geom_text_repel(data = ont_comp_combined %>% filter(evd_p_value != 0 & eva_p_value != 0), 
+                   aes(x = evd_p_value, y = eva_p_value, label = term_name),
+                   force = 8,
+                   size = 6) +
+  geom_abline(linetype = "dashed") +
+  scale_color_viridis_d() +
+  labs(x = "Dex v. ELS P-value (-log10)",
+       y = "ACTH v. ELS P-value (-log10)") +
+  theme_light() +
+  theme(legend.position = "bottom",
+        legend.title = element_blank(),
+        legend.text = element_text(size = 20),
+        axis.text = element_text(size = 20),
+        axis.title = element_text(size = 25))
+
+ggsave(filename = here("results/figures/dex_v_acth.png"), 
+       ont_comp_plot, 
+       width = 12, 
+       height = 12, 
+       units = "in", 
+       dpi = 600)
+```
+
+```{r split-unique-ontologies, eval=TRUE, include=FALSE}
+
+eva_ont_res <- base_els_v_acth_ont$result %>% 
+  as_tibble() %>% 
+  dplyr::select(term_id, term_name, eva_p_value = p_value)
+
+evd_ont_res <- base_els_v_dex_ont$result %>% 
+  as_tibble() %>% 
+  dplyr::select(term_id, term_name, evd_p_value = p_value)
+
+joined_ont <- full_join(evd_ont_res, eva_ont_res, by = c("term_name", "term_id")) %>% 
+  mutate(evd_p_value = replace_na(evd_p_value, 0),
+         eva_p_value = replace_na(eva_p_value, 0))
+
+joined_ont %>% 
+  filter(evd_p_value == 0) %>% 
+dplyr::select(term_id, eva_p_value) %>% 
+  write_csv(here("results/ontology/acth_spec_ont.csv"))
+
+joined_ont %>% 
+  filter(eva_p_value == 0) %>%
+dplyr::select(term_id, evd_p_value) %>% 
+  write_csv(here("results/ontology/dex_spec_ont.csv"))
+
+```
+
+```{r unique-ont-semantic-plots, eval=TRUE, include=FALSE}
+
+dex_spec_plot <- semantic_plot(here("results/revigo_ontology/dex_spec_revigo.csv"), 
+                               title = "DEX Specific Pathways",
+                               subtitle = "",
+                               disp = .10) +
+  theme(plot.subtitle = element_blank(),
+        plot.title = element_blank(),
+        axis.title = element_blank(),
+        axis.text = element_text(size = 20),
+        legend.title = element_text(size = 15),
+        legend.text = element_text(size = 10),
+        legend.position = "bottom")
+
+ggsave(here("results/figures/dex_spec_plot.png"),
+       dex_spec_plot,
+       height = 8,
+       width = 8,
+       units = "in",
+       dpi = 600)
+
+acth_spec_plot <- semantic_plot(here("results/revigo_ontology/acth_spec_revigo.csv"), 
+                                title = "ACTH Specific Pathways",
+                                subtitle = "",
+                                disp = 0.10) +
+  theme(plot.subtitle = element_blank(),
+        plot.title = element_blank(),
+        axis.title = element_blank(),
+        axis.text = element_text(size = 20),
+        legend.title = element_text(size = 15),
+        legend.text = element_text(size = 10),
+        legend.position = "bottom")
+
+ggsave(here("results/figures/acth_spec_plot.png"),
+       acth_spec_plot,
+       height = 8,
+       width = 8,
+       units = "in",
+       dpi = 600)
+
+```
+
+```{r together-plot, fig.width='70%'}
+fig_four <- ont_comp_plot / (acth_spec_plot + dex_spec_plot)
+
+ggsave(here("results/figures/figure_four.png"),
+       fig_four,
+       height = 15,
+       width = 20,
+       units = "in",
+       dpi = 600)
+
+ggsave(here("results/figures/figure_four.svg"),
+       fig_four,
+       height = 15,
+       width = 20,
+       units = "in",
+       dpi = 600)
+
+
+```
