@@ -16,6 +16,7 @@ library(gee)
 library(janitor)
 library(ggvenn)
 library(patchwork)
+library(gprofiler2)
 
 #Load custom functions
 fun.dir <- list.files(here("src"), full.names = TRUE)
@@ -259,14 +260,17 @@ base_els_v_ctl_all <- get_model_values(els_anno,
                                        treat_group_ctl, 
                                        direction = "all", 
                                        p_cutoff = TRUE)
+write_csv(base_els_v_ctl_all, here("results/gee_degs/base_els_v_ctl.csv")) #supp. table 1
 base_ctl_v_acth_all <- get_model_values(ctl_anno, 
                                         treat_group_acth, 
                                         direction = "all", 
                                         p_cutoff = TRUE)
+write_csv(base_ctl_v_acth_all, here("results/gee_degs/base_ctl_v_acth.csv")) #supp. table 2
 base_els_v_acth_all <- get_model_values(els_anno, 
                                         treat_group_acth, 
                                         direction = "all", 
                                         p_cutoff = TRUE) 
+write_csv(base_els_v_acth_all, here("results/gee_degs/base_els_v_acth.csv")) #supp. table 3
 ```
 
 ```{r ontology-acth, eval=TRUE, include=FALSE}
@@ -323,10 +327,12 @@ base_ctl_v_dex_all <- get_model_values(ctl_anno,
                                        treat_group_dex, 
                                        direction = "all", 
                                        p_cutoff = TRUE)
+write_csv(base_ctl_v_dex_all, here("results/gee_degs/base_ctl_v_dex.csv")) #supp. table 4
 base_els_v_dex_all <- get_model_values(els_anno, 
                                        treat_group_dex, 
                                        direction = "all",
                                        p_cutoff = TRUE) 
+write_csv(base_els_v_dex_all, here("results/gee_degs/base_els_v_dex.csv")) #supp. table 5
 ```
 
 ```{r ontology-dex, eval=TRUE, include=FALSE}
@@ -346,6 +352,7 @@ base_els_v_dex_ont <- gost(query = base_els_v_dex_all$gene_name,
 base_els_v_ctl_ont_res <- base_els_v_ctl_ont$result %>% 
   as_tibble() %>% 
   dplyr::select(term_name, evc_p_value = p_value)
+write_csv(base_els_v_ctl_ont_res, here("results/ontology/ctl_spec_ontology.csv"))
 
 base_els_v_dex_ont_res <- base_els_v_dex_ont$result %>% 
   as_tibble() %>% 

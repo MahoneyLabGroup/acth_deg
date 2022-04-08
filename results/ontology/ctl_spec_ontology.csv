@@ -1,0 +1,469 @@
+term_name,evc_p_value
+positive regulation of biological process,2.6947124393668143e-14
+developmental process,9.066672546654453e-14
+positive regulation of cellular process,5.919472661380938e-13
+anatomical structure development,2.2667667099871575e-12
+regulation of primary metabolic process,1.2161889041963783e-10
+regulation of cellular metabolic process,1.2161889041963783e-10
+localization,2.2151283659328573e-10
+organelle organization,2.5104724182865246e-10
+multicellular organism development,4.3392700119782246e-10
+regulation of nitrogen compound metabolic process,5.611309550653612e-10
+positive regulation of metabolic process,1.2581117998974954e-9
+establishment of localization,3.2835659042250434e-9
+cell differentiation,4.886240705565305e-9
+regulation of metabolic process,5.2796934490538e-9
+cellular protein modification process,5.2796934490538e-9
+protein modification process,5.2796934490538e-9
+system development,5.8566943180519365e-9
+macromolecule modification,6.3213987282136315e-9
+cellular developmental process,8.224210574765086e-9
+transport,1.2069087131306743e-8
+intracellular signal transduction,1.5977410318449646e-8
+cellular macromolecule metabolic process,1.8259084957003452e-8
+regulation of macromolecule metabolic process,2.3079651194084183e-8
+organonitrogen compound metabolic process,2.7583480801645044e-8
+positive regulation of macromolecule metabolic process,2.8123417737690838e-8
+regulation of protein metabolic process,2.8685434571188953e-8
+negative regulation of cellular process,4.0506618758285637e-8
+regulation of cell communication,4.0920620071224364e-8
+regulation of signaling,5.6899945248158696e-8
+regulation of synaptic plasticity,5.88096175178008e-8
+positive regulation of cellular metabolic process,5.88096175178008e-8
+cellular protein metabolic process,5.88096175178008e-8
+biological regulation,8.363346343461608e-8
+regulation of biological quality,9.464587051468585e-8
+protein metabolic process,1.751321306421527e-7
+cell development,2.0958045614199222e-7
+regulation of cellular protein metabolic process,2.2459295818551195e-7
+regulation of localization,2.2459295818551195e-7
+cell-cell signaling,2.9115371376779776e-7
+cellular response to chemical stimulus,3.1547836535583734e-7
+negative regulation of biological process,4.834245752540321e-7
+cellular localization,4.834245752540321e-7
+positive regulation of nitrogen compound metabolic process,5.090300526900095e-7
+nervous system development,8.143087005585883e-7
+macromolecule localization,1.1080551446216245e-6
+establishment of localization in cell,1.9606359257735144e-6
+positive regulation of signaling,2.020140971703222e-6
+positive regulation of cell communication,2.581908184131393e-6
+regulation of transport,3.1953811852834517e-6
+regulation of response to stimulus,3.532354250812357e-6
+response to organic substance,4.376804809150566e-6
+phosphate-containing compound metabolic process,4.777110642322039e-6
+phosphorus metabolic process,4.899172831594223e-6
+trans-synaptic signaling,5.832026944922455e-6
+anterograde trans-synaptic signaling,8.533214106361603e-6
+chemical synaptic transmission,8.533214106361603e-6
+regulation of organelle organization,1.4940099383163626e-5
+organic substance transport,1.4963242511895799e-5
+regulation of cellular process,1.6354744719849044e-5
+regulation of signal transduction,1.6577397743848447e-5
+regulation of molecular function,2.0285043672206462e-5
+synaptic signaling,2.264730377406288e-5
+cellular component organization or biogenesis,2.9233676886180803e-5
+protein phosphorylation,3.2775093466696504e-5
+regulation of protein modification process,3.7327499582933457e-5
+cellular macromolecule localization,4.283218974847937e-5
+regulation of biosynthetic process,4.829837984740275e-5
+heterocycle biosynthetic process,5.0968702561733966e-5
+cellular protein localization,5.424869216277984e-5
+cellular response to organic substance,5.576842000365221e-5
+regulation of macromolecule biosynthetic process,6.28797027557183e-5
+cellular component organization,6.660319830200096e-5
+regulation of cellular component organization,7.552207876975775e-5
+regulation of nucleobase-containing compound metabolic process,7.621458550685621e-5
+aromatic compound biosynthetic process,8.224809952625042e-5
+organic cyclic compound biosynthetic process,8.224809952625042e-5
+organic substance biosynthetic process,8.659711797709188e-5
+animal organ development,8.659711797709188e-5
+modulation of chemical synaptic transmission,8.659711797709188e-5
+regulation of trans-synaptic signaling,9.002579362005039e-5
+positive regulation of signal transduction,9.905360462685118e-5
+positive regulation of response to stimulus,9.974834759103608e-5
+regulation of biological process,9.974834759103608e-5
+response to endogenous stimulus,1.179836845592868e-4
+cell death,1.196971749043897e-4
+phosphorylation,1.196971749043897e-4
+supramolecular fiber organization,1.389847055239186e-4
+biosynthetic process,1.4988213200289738e-4
+response to organonitrogen compound,1.5910334679859287e-4
+response to oxygen-containing compound,1.670763907939661e-4
+cellular response to endogenous stimulus,1.7324242345114298e-4
+regulation of cellular biosynthetic process,1.773562270106843e-4
+negative regulation of nitrogen compound metabolic process,1.9147133723249228e-4
+nucleobase-containing compound biosynthetic process,1.9147133723249228e-4
+cation transport,1.9736681607935926e-4
+regulation of RNA metabolic process,1.9736681607935926e-4
+programmed cell death,2.0747460466109328e-4
+organelle localization,2.1095282701083187e-4
+protein localization,2.1620048679304554e-4
+regulation of phosphate metabolic process,2.270210194508691e-4
+regulation of phosphorus metabolic process,2.3241724168985434e-4
+plasma membrane bounded cell projection organization,2.3271530119339874e-4
+homeostatic process,2.685295282388112e-4
+inorganic ion transmembrane transport,2.699553489657781e-4
+cellular catabolic process,3.023318323224388e-4
+cell projection organization,3.1749982073213867e-4
+localization within membrane,3.3780836524348546e-4
+cellular biosynthetic process,3.54252160382443e-4
+neurogenesis,3.582021163037001e-4
+regulation of ion transport,3.975198829245839e-4
+metal ion transport,3.975198829245839e-4
+cellular response to stress,3.9823285687899364e-4
+intracellular transport,3.985466650970523e-4
+multicellular organismal process,4.918084209182206e-4
+positive regulation of protein metabolic process,5.398670756261005e-4
+response to nitrogen compound,5.432662349923975e-4
+vesicle organization,5.432662349923975e-4
+cell surface receptor signaling pathway,6.360703155523498e-4
+calcium ion transmembrane transport,6.410692992491874e-4
+positive regulation of transport,6.46520159441933e-4
+regulation of intracellular signal transduction,6.582759332864236e-4
+generation of neurons,6.944537403594389e-4
+regulation of cell death,7.718773047604411e-4
+regulation of cell development,8.19839767001308e-4
+protein localization to membrane,8.206224394292006e-4
+ion transport,8.676751055224609e-4
+regulation of gene expression,9.010320742649298e-4
+positive regulation of molecular function,9.387286533092184e-4
+calcium ion transport,0.00095200978722309365
+catabolic process,9.550757664421717e-4
+organic hydroxy compound transport,9.550757664421717e-4
+macromolecule biosynthetic process,0.0010074092865608444
+apoptotic process,0.0010256865547911213
+inorganic cation transmembrane transport,0.001244794120489836
+regulation of phosphorylation,0.0012732188933730472
+cellular response to oxygen-containing compound,0.001313906476591641
+anatomical structure morphogenesis,0.0014381957387823645
+nitrogen compound transport,0.0014789410438625214
+negative regulation of cellular metabolic process,0.0015953875321604728
+regulation of exocytosis,0.0016138258528272365
+regulation of protein phosphorylation,0.0016392800733295596
+vesicle-mediated transport,0.0018516527577972662
+DNA repair,0.0018695593365577598
+cellular response to organonitrogen compound,0.0018724869493898556
+response to stimulus,0.0018724869493898556
+cellular nitrogen compound biosynthetic process,0.0020082363359941948
+regulation of vesicle-mediated transport,0.0020985160218097484
+movement of cell or subcellular component,0.0021160609838204916
+negative regulation of smoothened signaling pathway,0.0021468333549289173
+regulation of programmed cell death,0.0023181434111571044
+regulation of neurogenesis,0.0023190804004609247
+positive regulation of nucleobase-containing compound metabolic process,0.0024380551146064304
+negative regulation of binding,0.0025054677580418428
+regulation of nucleic acid-templated transcription,0.002528221776294468
+regulation of supramolecular fiber organization,0.0026230597335476892
+cation transmembrane transport,0.002641936315749887
+regulation of RNA biosynthetic process,0.0026734059426732925
+regulation of catalytic activity,0.0026992082931489142
+cell surface receptor signaling pathway involved in cell-cell signaling,0.002704747105579475
+cellular response to nitrogen compound,0.00291442077037161
+regulation of cytoskeleton organization,0.0030772138765424815
+establishment of protein localization,0.003084936885475244
+positive regulation of cellular protein metabolic process,0.003084936885475244
+establishment of organelle localization,0.003101718009981615
+exocytosis,0.003181857529868461
+"regulation of transcription, DNA-templated",0.0032304260142050393
+vesicle docking,0.0032304260142050393
+RNA biosynthetic process,0.0032559268125869406
+negative regulation of cellular component organization,0.0032559268125869406
+positive regulation of organelle organization,0.0033494452895067093
+salivary gland cavitation,0.0033560424923210312
+tube lumen cavitation,0.0033560424923210312
+nucleic acid-templated transcription,0.003577344037069364
+regulation of apoptotic process,0.0037687925153829516
+response to stress,0.003770391814950596
+regulation of cell differentiation,0.0037837291175393975
+cytoskeleton organization,0.003942931943575455
+regulation of transmembrane transport,0.003987331243005042
+regulation of TOR signaling,0.004083576036141624
+central nervous system development,0.004083576036141624
+locomotion,0.004432516498031181
+"transcription, DNA-templated",0.004636274021654801
+export from cell,0.004636274021654801
+learning or memory,0.004959140949448345
+positive regulation of biosynthetic process,0.005003525182582043
+regulation of developmental process,0.005218726893865991
+protein transport,0.005269860462223925
+regulation of cellular component biogenesis,0.005353143468034028
+regulation of secretion by cell,0.00545268661714275
+negative regulation of molecular function,0.00545268661714275
+myeloid cell homeostasis,0.005968108829995903
+ion transmembrane transport,0.006017099168125396
+transmembrane transport,0.006120695783142045
+MAPK cascade,0.006167652526135591
+chromosome organization,0.006630407732496932
+cell population proliferation,0.007153633950664135
+cell junction organization,0.007295268106101124
+membrane docking,0.007455480120937791
+regulation of MAPK cascade,0.007455480120937791
+negative regulation of protein binding,0.007500147309069039
+secretion by cell,0.0077579378941495455
+positive regulation of macromolecule biosynthetic process,0.0077579378941495455
+cell activation,0.0077579378941495455
+cell morphogenesis,0.007790968234988139
+regulation of postsynaptic membrane potential,0.007844533775440555
+positive regulation of cell development,0.007844533775440555
+neuron projection development,0.00808182658142862
+regulation of binding,0.008365208302513097
+TOR signaling,0.008528109076299532
+actin filament bundle assembly,0.008528109076299532
+organelle localization by membrane tethering,0.00857059762208806
+aldehyde catabolic process,0.008725752853771647
+regulation of mitophagy,0.008725752853771647
+long-term synaptic potentiation,0.008725752853771647
+negative regulation of cell communication,0.008725752853771647
+proteasomal protein catabolic process,0.009223696915454873
+positive regulation of cellular biosynthetic process,0.009223696915454873
+neurotransmitter transport,0.009250425461590474
+cellular component morphogenesis,0.009276659041029351
+actin filament bundle organization,0.009481158505666921
+response to organic cyclic compound,0.009481158505666921
+tissue development,0.009481158505666921
+regulation of actin filament-based process,0.010577781836701815
+regulation of transferase activity,0.010577781836701815
+mast cell degranulation,0.010728792438362953
+microglial cell proliferation,0.01101359494292346
+regulation of actin filament organization,0.011260832218139078
+positive regulation of protein catabolic process,0.011602465754457718
+regulation of nervous system development,0.011806820810889698
+regulation of protein-containing complex assembly,0.011870309292739514
+negative regulation of macromolecule biosynthetic process,0.011870309292739514
+protein localization to cell periphery,0.011934175994464691
+cognition,0.012008143491412866
+positive regulation of cytoskeleton organization,0.012008143491412866
+negative regulation of gliogenesis,0.012008143491412866
+positive regulation of TOR signaling,0.012008143491412866
+fibroblast activation,0.012008143491412866
+actin filament-based process,0.012008143491412866
+circadian regulation of gene expression,0.012805625651684641
+positive regulation of phosphate metabolic process,0.012805625651684641
+negative regulation of signaling,0.012805625651684641
+positive regulation of cell differentiation,0.012805625651684641
+negative regulation of nucleobase-containing compound metabolic process,0.012805625651684641
+positive regulation of phosphorus metabolic process,0.012805625651684641
+actin cytoskeleton reorganization,0.012985614001121132
+regulation of actin cytoskeleton organization,0.013263386811000637
+regulated exocytosis,0.013263386811000637
+actin filament organization,0.013486876704244907
+mast cell mediated immunity,0.013486876704244907
+mast cell activation involved in immune response,0.013486876704244907
+cell motility,0.0135211389636548
+localization of cell,0.0135211389636548
+cellular response to stimulus,0.0135211389636548
+cellular response to DNA damage stimulus,0.01355124366414838
+dendrite development,0.013562245670673215
+regulation of ion transmembrane transport,0.01376065475988315
+negative regulation of organelle organization,0.013937742609262392
+negative regulation of neurogenesis,0.014021311761360192
+actin cytoskeleton organization,0.014021311761360192
+regulation of kinase activity,0.014066428053643372
+secretion,0.014160501639819098
+positive regulation of Wnt signaling pathway,0.014289916255172602
+regulation of protein catabolic process,0.014456672796020156
+regulation of transcription by RNA polymerase II,0.014456672796020156
+regulation of modification of synaptic structure,0.014994705528691095
+negative regulation of protein metabolic process,0.014994705528691095
+cellular response to peptide,0.014994705528691095
+cellular component maintenance,0.014994705528691095
+negative regulation of catecholamine secretion,0.014994705528691095
+positive regulation of transcription by RNA polymerase II,0.015156996620451493
+regulation of protein binding,0.015160217656014148
+neuron differentiation,0.015251383239075166
+regulation of epithelial cell proliferation involved in lung morphogenesis,0.015777177437188143
+divalent inorganic cation homeostasis,0.015955272312904133
+peptidyl-amino acid modification,0.015955272312904133
+regulation of neuronal synaptic plasticity,0.01602644953566796
+response to toxic substance,0.016040006455973397
+vesicle docking involved in exocytosis,0.016047098995562815
+positive regulation of lipid kinase activity,0.016047098995562815
+lipid localization,0.01610413822171789
+regulation of membrane potential,0.01622794129301519
+negative regulation of nervous system development,0.01626407359791998
+process utilizing autophagic mechanism,0.016593009820380072
+autophagy,0.016593009820380072
+positive regulation of RNA metabolic process,0.01704176897965867
+small GTPase mediated signal transduction,0.017215822936717067
+regulation of secretion,0.01724312884124693
+regulation of proteolysis involved in cellular protein catabolic process,0.017319920180407358
+negative regulation of synaptic transmission,0.017592054302035986
+centrosome duplication,0.017592054302035986
+positive regulation of ion transport,0.017592054302035986
+synapse organization,0.017592054302035986
+negative regulation of macromolecule metabolic process,0.017592054302035986
+positive regulation of supramolecular fiber organization,0.017840185113056968
+regulation of cation channel activity,0.018053641414066943
+cell morphogenesis involved in differentiation,0.018053641414066943
+regulation of transcription elongation from RNA polymerase II promoter,0.018428824972785283
+negative regulation of glial cell differentiation,0.018428824972785283
+positive regulation of protein modification process,0.018939017214207193
+positive regulation of canonical Wnt signaling pathway,0.01912360369667237
+signal release,0.019277611207252274
+positive regulation of developmental process,0.019277611207252274
+signal release from synapse,0.02036226094690087
+neurotransmitter secretion,0.02036226094690087
+brain development,0.02038109961308667
+regulation of cellular protein catabolic process,0.02068951124203525
+chromatin organization,0.020732090426902276
+negative regulation of RNA metabolic process,0.02103294007798512
+regulation of cellular localization,0.02154800154892932
+negative regulation of cell death,0.02159121737007339
+regulation of gliogenesis,0.022047199918563673
+regulation of modification of postsynaptic structure,0.02204998428890451
+hepatic stellate cell activation,0.02204998428890451
+intracellular protein transport,0.022456878174301784
+mitochondrion organization,0.022456878174301784
+"positive regulation of transcription, DNA-templated",0.022660832970418144
+positive regulation of nucleic acid-templated transcription,0.022660832970418144
+transcription by RNA polymerase II,0.023190914183046148
+gliogenesis,0.023290644856477794
+cellular aldehyde metabolic process,0.023290644856477794
+positive regulation of RNA biosynthetic process,0.02332886619654792
+positive regulation of neurogenesis,0.02332886619654792
+epithelial cell-cell adhesion,0.023580464220491773
+negative regulation of programmed cell death,0.023580464220491773
+lipid transport,0.023580464220491773
+learning,0.023580464220491773
+membrane organization,0.023580464220491773
+protein dephosphorylation,0.023653278320265207
+regulation of autophagy of mitochondrion,0.023793900248228396
+negative regulation of synaptic vesicle exocytosis,0.024074751735162214
+organic substance catabolic process,0.024383687084522918
+modulation of excitatory postsynaptic potential,0.025544760207662713
+negative regulation of cation channel activity,0.025544760207662713
+cell junction maintenance,0.025544760207662713
+regulation of centrosome duplication,0.025544760207662713
+regulation of cell population proliferation,0.025562537867625336
+plasma membrane bounded cell projection morphogenesis,0.02651464135281599
+positive regulation of intracellular signal transduction,0.02679711160233949
+regulation of regulated secretory pathway,0.026826046030265577
+negative regulation of protein modification process,0.02703335106286283
+neuron projection morphogenesis,0.02737716785165292
+leukocyte activation,0.02793417368903753
+regulation of voltage-gated calcium channel activity,0.02815714086890863
+regulation of proteasomal protein catabolic process,0.028271060896641515
+actomyosin structure organization,0.02851554120018597
+regulation of Wnt signaling pathway,0.028531093394739877
+cell projection morphogenesis,0.029398915304173486
+positive regulation of glial cell migration,0.02962421044003593
+positive regulation of autophagy of mitochondrion,0.02962421044003593
+regulation of chloride transport,0.02962421044003593
+macromolecule catabolic process,0.02962421044003593
+macrophage proliferation,0.02962421044003593
+head development,0.03000117181350151
+neuron development,0.03000117181350151
+carbohydrate derivative biosynthetic process,0.03000117181350151
+negative regulation of protein-containing complex assembly,0.030041891501222107
+mast cell activation,0.030041891501222107
+cellular divalent inorganic cation homeostasis,0.030605962517613175
+cell migration,0.030605962517613175
+myeloid cell activation involved in immune response,0.031651349693318696
+organelle assembly,0.03295935865990302
+regulation of nervous system process,0.03338187639594599
+regulation of multicellular organismal process,0.03338187639594599
+proteolysis involved in cellular protein catabolic process,0.033493051204215155
+cellular homeostasis,0.03350004746617309
+regulation of calcium ion transmembrane transporter activity,0.03425875254786705
+cellular response to peptide hormone stimulus,0.03432648843154837
+dephosphorylation,0.03460537516478935
+negative regulation of response to stimulus,0.0352161370012441
+negative regulation of cellular protein metabolic process,0.03548899933687928
+cellular protein catabolic process,0.03548899933687928
+regulation of cell cycle process,0.03565090569209096
+"chemical synaptic transmission, postsynaptic",0.03565090569209096
+erythrocyte homeostasis,0.03565090569209096
+regulation of microtubule-based process,0.03565090569209096
+negative regulation of biosynthetic process,0.03606355812176883
+regulation of dephosphorylation,0.03606355812176883
+cellular response to hormone stimulus,0.03643380075385684
+regulation of glial cell differentiation,0.03643695652700262
+protein catabolic process,0.03643695652700262
+positive regulation of catabolic process,0.03643695652700262
+negative regulation of transport,0.037093906435890084
+positive regulation of cellular component organization,0.037093906435890084
+cell projection assembly,0.03716462225406921
+organonitrogen compound catabolic process,0.03742998051883258
+regulation of canonical Wnt signaling pathway,0.0375522439034143
+chemotaxis,0.037593603599739095
+positive regulation of excitatory postsynaptic potential,0.037873783603725786
+negative regulation of transcription elongation from RNA polymerase II promoter,0.038173079258320544
+negative regulation of neurotransmitter secretion,0.038173079258320544
+positive regulation of calcium ion-dependent exocytosis,0.038173079258320544
+epithelial cell proliferation involved in lung morphogenesis,0.038173079258320544
+cell-cell signaling by wnt,0.038173079258320544
+cellular metabolic process,0.038173079258320544
+ethanol catabolic process,0.03854333155946051
+negative regulation of cellular biosynthetic process,0.03854333155946051
+"regulation of DNA-templated transcription, elongation",0.03854333155946051
+regulation of centrosome cycle,0.03854333155946051
+regulation of actin filament bundle assembly,0.039424559512908464
+microtubule organizing center organization,0.039424559512908464
+erythrocyte differentiation,0.039424559512908464
+negative regulation of ion transport,0.041140042436664276
+negative regulation of endoribonuclease activity,0.041322151392338524
+stress fiber assembly,0.041322151392338524
+glial cell differentiation,0.041322151392338524
+regulation of dipeptide transmembrane transport,0.041322151392338524
+taxis,0.041322151392338524
+positive regulation of phosphorylation,0.041322151392338524
+positive regulation of dipeptide transmembrane transport,0.041322151392338524
+positive regulation of proteasomal protein catabolic process,0.041322151392338524
+negative regulation of ribonuclease activity,0.041322151392338524
+interleukin-11-mediated signaling pathway,0.041322151392338524
+plasma membrane bounded cell projection assembly,0.041322151392338524
+positive regulation of MAPK cascade,0.041322151392338524
+contractile actin filament bundle assembly,0.041322151392338524
+organelle disassembly,0.041322151392338524
+positive regulation of dipeptide transport,0.041322151392338524
+rhythmic process,0.041322151392338524
+regulation of oligopeptide transport,0.041322151392338524
+regulation of dipeptide transport,0.041322151392338524
+positive regulation of oligopeptide transport,0.041322151392338524
+cation homeostasis,0.041322151392338524
+positive regulation of mismatch repair,0.041322151392338524
+negative regulation of miRNA transcription,0.041322151392338524
+positive regulation of cell death,0.041322151392338524
+ion homeostasis,0.041379307895757285
+cellular response to lipoprotein particle stimulus,0.041379307895757285
+modification of synaptic structure,0.041379307895757285
+negative regulation of apoptotic process,0.041379307895757285
+cytosolic transport,0.041379307895757285
+negative regulation of cell development,0.04216603729616924
+response to abiotic stimulus,0.042365238389113775
+positive regulation of calcium ion transmembrane transport,0.042365238389113775
+regulation of protein dephosphorylation,0.042365238389113775
+negative regulation of metabolic process,0.042365238389113775
+cell part morphogenesis,0.042365238389113775
+regulation of neurotransmitter levels,0.042365238389113775
+exocytic process,0.042365238389113775
+monoamine transport,0.042365238389113775
+myeloid leukocyte activation,0.042365238389113775
+regulation of calcium ion transmembrane transport,0.04304014795033357
+calcium ion homeostasis,0.043496619251058716
+regulation of catabolic process,0.043496619251058716
+positive regulation of catalytic activity,0.04366298685697266
+stress-activated MAPK cascade,0.043894553457493976
+macroautophagy,0.043894553457493976
+response to hormone,0.04468745182949501
+centrosome cycle,0.044862596564039924
+negative regulation of signal transduction,0.04493548510969117
+immune system development,0.04561801775420103
+cellular calcium ion homeostasis,0.045894932315842706
+"negative regulation of DNA-templated transcription, elongation",0.04601526297280328
+negative regulation of neurotransmitter transport,0.04601526297280328
+actin crosslink formation,0.04601526297280328
+regulation of metal ion transport,0.04611606301007667
+regulation of cellular macromolecule biosynthetic process,0.04709720905621985
+G2/M transition of mitotic cell cycle,0.04709720905621985
+excitatory postsynaptic potential,0.04709720905621985
+positive regulation of calcium ion transmembrane transporter activity,0.04709720905621985
+response to chemical,0.04709720905621985
+regulation of lipid localization,0.04710465366123899
+positive regulation of synaptic transmission,0.04735714328137328
+microtubule-based process,0.04735714328137328
+cellular macromolecule catabolic process,0.04735714328137328
+canonical Wnt signaling pathway,0.04808337072967329
+inorganic ion homeostasis,0.04873035691660805
+vacuolar localization,0.04873035691660805
+lysosome localization,0.04873035691660805
